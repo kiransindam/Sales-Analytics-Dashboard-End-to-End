@@ -53,7 +53,20 @@ excel-sales-dashboard/
 1. Clone the repo: `git clone https://github.com/your-username/excel-sales-dashboard`
 2. Open `excel/Sales_Analytics_Dashboard.xlsx` in Excel
 3. Enable macros if prompted for data refresh
-4. For Power BI: import `excel/Raw_Data.xlsx` into Power BI Desktop
+4. For Power BI: import `Power_bi_sales_daashbord.html` into Power BI Desktop im convert that HTML download and open it.
+
+## 👤 Author
+
+**[Kiran Sindam]**
+Data Analyst | Excel · Python · Power BI
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0077B5?style=flat-square&logo=linkedin)](https://www.linkedin.com/in/kiransindam/)
+[![GitHub](https://img.shields.io/badge/GitHub-Follow-181717?style=flat-square&logo=github)](https://github.com/kiransindam)
+[![Portfolio](https://img.shields.io/badge/Portfolio-Visit-orange?style=flat-square)](https://aistudio.google.com/apps/80abc1d3-fe16-48f2-a577-f20e4c746d99?fullscreenApplet=true&showPreview=true&showAssistant=true)
+
+<div align="center">
+  <sub>If this project helped you, please ⭐ star the repository!</sub>
+</div>
 
 ## License
 MIT — free to use and adapt with attribution.
