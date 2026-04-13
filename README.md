@@ -58,15 +58,16 @@ excel-sales-dashboard/
 ## 👤 Author
 
 **[Kiran Sindam]**
-Data Analyst | Excel · Python · Power BI
+Data Analyst | Excel · Python · Power BI · MYSQL · Business Proposal Documentation End to End. 
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0077B5?style=flat-square&logo=linkedin)](https://www.linkedin.com/in/kiransindam/)
 [![GitHub](https://img.shields.io/badge/GitHub-Follow-181717?style=flat-square&logo=github)](https://github.com/kiransindam)
 [![Portfolio](https://img.shields.io/badge/Portfolio-Visit-orange?style=flat-square)](https://aistudio.google.com/apps/80abc1d3-fe16-48f2-a577-f20e4c746d99?fullscreenApplet=true&showPreview=true&showAssistant=true)
 
-<div align="center">
-  <sub>If this project helped you, please ⭐ star the repository!</sub>
-</div>
 
 ## License
 MIT — free to use and adapt with attribution.
+
+<div align="center">
+  <sub>If this project helped you, please ⭐ star the repository!</sub>
+</div>
