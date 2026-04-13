@@ -1,0 +1,336 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#1a1a2e;color:#e0e0e0}
+.pbi-wrap{background:#1a1a2e;min-height:100vh;padding:0}
+.topbar{background:#1f1f3a;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #2d2d50}
+.topbar-title{font-size:14px;font-weight:600;color:#c8c8ff;letter-spacing:.3px}
+.topbar-sub{font-size:11px;color:#7070a0;margin-top:2px}
+.topbar-right{display:flex;gap:8px;align-items:center}
+.pbi-badge{background:#2d2d50;border:1px solid #3a3a60;border-radius:4px;padding:3px 9px;font-size:11px;color:#9090c0}
+.slicer-bar{background:#1f1f3a;padding:8px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;border-bottom:1px solid #2d2d50}
+.slicer-label{font-size:11px;color:#7070a0;font-weight:500;white-space:nowrap}
+.slicer-btn{background:#16213e;border:1px solid #2d2d50;border-radius:3px;padding:3px 10px;font-size:11px;color:#a0a0c0;cursor:pointer;transition:all .15s;white-space:nowrap}
+.slicer-btn:hover{border-color:#5050a0;color:#c8c8ff}
+.slicer-btn.active{background:#2d2d70;border-color:#6060d0;color:#c8c8ff;font-weight:500}
+.slicer-divider{width:1px;height:20px;background:#2d2d50}
+.canvas{padding:12px 14px;display:grid;gap:10px;grid-template-columns:1fr 1fr 1fr 1fr}
+.kpi-row{display:contents}
+.kpi{background:#1f1f3a;border:1px solid #2d2d50;border-radius:4px;padding:10px 14px;position:relative;overflow:hidden}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.kpi.k1::before{background:#4f8ef7}
+.kpi.k2::before{background:#22c55e}
+.kpi.k3::before{background:#f59e0b}
+.kpi.k4::before{background:#ef4444}
+.kpi-label{font-size:10px;color:#7070a0;font-weight:500;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.kpi-value{font-size:22px;font-weight:600;color:#e0e0f0;line-height:1}
+.kpi-sub{font-size:11px;color:#5070a0;margin-top:4px}
+.kpi-trend{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:18px}
+.chart-card{background:#1f1f3a;border:1px solid #2d2d50;border-radius:4px;padding:10px 14px;grid-column:span 2}
+.chart-card.full{grid-column:span 4}
+.chart-card.third{grid-column:span 1}
+.chart-title{font-size:11px;font-weight:600;color:#9090c0;text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
+.chart-title span{font-size:10px;font-weight:400;color:#5070a0;text-transform:none;letter-spacing:0}
+.chart-wrap{position:relative;width:100%}
+.legend-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:#8080a0}
+.legend-dot{width:9px;height:9px;border-radius:2px;flex-shrink:0}
+.table-wrap{overflow-x:auto}
+table.pbi{width:100%;border-collapse:collapse;font-size:11px}
+table.pbi th{background:#16213e;color:#7070a0;font-weight:500;padding:5px 8px;text-align:left;border-bottom:1px solid #2d2d50;white-space:nowrap}
+table.pbi td{padding:4px 8px;border-bottom:1px solid #1a1a2e;color:#c0c0d8}
+table.pbi tr:hover td{background:#252545}
+.bar-inline{display:flex;align-items:center;gap:6px}
+.bar-track{flex:1;background:#16213e;border-radius:2px;height:5px;min-width:40px}
+.bar-fill{height:5px;border-radius:2px}
+.rank-num{width:16px;text-align:right;color:#5070a0;font-size:10px}
+.pbi-footer{background:#1f1f3a;border-top:1px solid #2d2d50;padding:5px 16px;display:flex;justify-content:space-between;align-items:center}
+.footer-text{font-size:10px;color:#505070}
+</style>
+
+<div class="pbi-wrap">
+<div class="topbar">
+  <div>
+    <div class="topbar-title">Sales Analytics Dashboard</div>
+    <div class="topbar-sub">Online Education &amp; Training Services &nbsp;|&nbsp; 1,239 Records</div>
+  </div>
+  <div class="topbar-right">
+    <span class="pbi-badge">Last refresh: Apr 2026</span>
+    <span class="pbi-badge">Auto refresh: Daily</span>
+  </div>
+</div>
+
+<div class="slicer-bar">
+  <span class="slicer-label">Month</span>
+  <button class="slicer-btn active" onclick="setSlicer('month','All',this)">All</button>
+  <button class="slicer-btn" onclick="setSlicer('month','Q1',this)">Q1</button>
+  <button class="slicer-btn" onclick="setSlicer('month','Q2',this)">Q2</button>
+  <button class="slicer-btn" onclick="setSlicer('month','Q3',this)">Q3</button>
+  <button class="slicer-btn" onclick="setSlicer('month','Q4',this)">Q4</button>
+  <div class="slicer-divider"></div>
+  <span class="slicer-label">Training Model</span>
+  <button class="slicer-btn active" onclick="setSlicer('model','All',this)">All</button>
+  <button class="slicer-btn" onclick="setSlicer('model','GK',this)">GK</button>
+  <button class="slicer-btn" onclick="setSlicer('model','BE',this)">BE</button>
+  <button class="slicer-btn" onclick="setSlicer('model','CNI',this)">CNI</button>
+  <button class="slicer-btn" onclick="setSlicer('model','FC',this)">FC</button>
+  <div class="slicer-divider"></div>
+  <span class="slicer-label">Status</span>
+  <button class="slicer-btn active" onclick="setSlicer('status','All',this)">All</button>
+  <button class="slicer-btn" onclick="setSlicer('status','Paid',this)">Paid</button>
+  <button class="slicer-btn" onclick="setSlicer('status','Not Paid',this)">Not Paid</button>
+</div>
+
+<div class="canvas">
+  <div class="kpi k1"><div class="kpi-label">Total Revenue</div><div class="kpi-value" id="kv1">—</div><div class="kpi-sub" id="ks1">—</div><div class="kpi-trend">💰</div></div>
+  <div class="kpi k2"><div class="kpi-label">Paid Students</div><div class="kpi-value" id="kv2">—</div><div class="kpi-sub" id="ks2">—</div><div class="kpi-trend">✓</div></div>
+  <div class="kpi k3"><div class="kpi-label">Unpaid Students</div><div class="kpi-value" id="kv3">—</div><div class="kpi-sub" id="ks3">—</div><div class="kpi-trend">⏳</div></div>
+  <div class="kpi k4"><div class="kpi-label">Collection Rate</div><div class="kpi-value" id="kv4">—</div><div class="kpi-sub" id="ks4">—</div><div class="kpi-trend">📊</div></div>
+
+  <div class="chart-card" style="grid-column:span 2">
+    <div class="chart-title">Monthly Revenue Trend <span id="chart1-sub"></span></div>
+    <div class="legend-row">
+      <div class="legend-item"><div class="legend-dot" style="background:#4f8ef7"></div>Revenue</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#22c55e;border-radius:50%"></div>Paid</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#ef4444;border-radius:50%"></div>Not Paid</div>
+    </div>
+    <div class="chart-wrap" style="height:180px"><canvas id="c1" role="img" aria-label="Monthly revenue trend line chart">Monthly revenue data</canvas></div>
+  </div>
+
+  <div class="chart-card" style="grid-column:span 2">
+    <div class="chart-title">Ad Channel Performance <span id="chart2-sub"></span></div>
+    <div class="legend-row">
+      <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div>Revenue by channel</div>
+    </div>
+    <div class="chart-wrap" style="height:180px"><canvas id="c2" role="img" aria-label="Revenue by advertising channel bar chart">Ad channel revenue data</canvas></div>
+  </div>
+
+  <div class="chart-card" style="grid-column:span 1">
+    <div class="chart-title">Training Model Split</div>
+    <div class="chart-wrap" style="height:160px"><canvas id="c3" role="img" aria-label="Revenue by training model donut chart">Training model data</canvas></div>
+    <div class="legend-row" id="tm-legend" style="margin-top:8px;margin-bottom:0"></div>
+  </div>
+
+  <div class="chart-card" style="grid-column:span 3">
+    <div class="chart-title">Consultant Performance Ranking <span id="chart4-sub"></span></div>
+    <div class="table-wrap"><table class="pbi" id="cons-table">
+      <thead><tr><th>#</th><th>Consultant</th><th>Revenue</th><th>Calls</th><th>Rev / Call</th><th style="width:120px">Revenue Bar</th></tr></thead>
+      <tbody id="cons-body"></tbody>
+    </table></div>
+  </div>
+
+  <div class="chart-card" style="grid-column:span 2">
+    <div class="chart-title">Sales Team Comparison</div>
+    <div class="chart-wrap" style="height:140px"><canvas id="c4" role="img" aria-label="Sales team revenue comparison">Sales team data</canvas></div>
+  </div>
+
+  <div class="chart-card" style="grid-column:span 2">
+    <div class="chart-title">Fee Collection by Team</div>
+    <div class="chart-wrap" style="height:140px"><canvas id="c5" role="img" aria-label="Fee collection rate by sales team">Fee collection data</canvas></div>
+  </div>
+</div>
+
+<div class="pbi-footer">
+  <span class="footer-text">Source: Raw Data — 1,239 student records &nbsp;|&nbsp; April 2026</span>
+  <span class="footer-text" id="filter-status">No filters applied</span>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const RAW = {
+  months: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+  rev:    [984,1040,116,545,1158,512,442,1163,2151,3809,2814,1247],
+  paid:   [52,50,22,29,67,32,28,62,128,210,155,91],
+  unpaid: [16,16,8,10,19,10,10,18,43,68,57,36],
+  adCh:   ['Television','Facebook','Company Web','WhatsApp','Google Ad','YouTube'],
+  adRev:  [4590,3531,2737,2494,1823,806],
+  adCnt:  [385,244,203,185,157,63],
+  models: ['GK','BE','CNI','FC'],
+  modelRev:[3941,1533,836,98],
+  modelCnt:[706,138,75,7],
+  teams:  ['Hossam','Haidy','Rovan','Beyablo'],
+  teamRev:[5283,5222,2703,2575],
+  teamPaid:[308,300,157,161],
+  teamTotal:[412,407,211,207],
+  cons:   ['Mohmed','Rony','Hany','Dary','Kisho','Reham','Khalil','Sahar','John','Hisham','Dina','Ahmed','Kenza','Jood','Adam','Habib'],
+  consRev:[1727,1626,1534,1360,1299,1243,1177,1066,1029,995,832,650,411,336,364,332],
+  consCalls:[612,584,521,498,463,455,432,398,384,371,312,279,198,156,167,143],
+  q1months:['Jan','Feb','Mar'], q2months:['Apr','May','Jun'],
+  q3months:['Jul','Aug','Sep'], q4months:['Oct','Nov','Dec']
+};
+
+const COLORS=['#4f8ef7','#f59e0b','#22c55e','#ef4444','#a78bfa','#fb923c','#34d399','#f472b6'];
+const MODEL_COLORS=['#4f8ef7','#f59e0b','#22c55e','#a78bfa'];
+const TEAM_COLORS=['#4f8ef7','#22c55e','#f59e0b','#ef4444'];
+
+let slicers={month:'All',model:'All',status:'All'};
+let charts={};
+
+function fmt(n){
+  if(n>=1000) return (n/1000).toFixed(1)+'B';
+  return n.toFixed(0)+'M';
+}
+function fmtM(n){return n.toFixed(1)+'M';}
+function pct(a,b){return b?((a/b)*100).toFixed(1)+'%':'—';}
+
+function getMonthIndices(){
+  const m=slicers.month;
+  if(m==='All') return [0,1,2,3,4,5,6,7,8,9,10,11];
+  if(m==='Q1') return [0,1,2];
+  if(m==='Q2') return [3,4,5];
+  if(m==='Q3') return [6,7,8];
+  if(m==='Q4') return [9,10,11];
+  return [0,1,2,3,4,5,6,7,8,9,10,11];
+}
+
+function modelFactor(){
+  if(slicers.model==='All') return 1;
+  const idx=RAW.models.indexOf(slicers.model);
+  return idx>=0?(RAW.modelRev[idx]/RAW.modelRev.reduce((a,b)=>a+b,0)):1;
+}
+
+function statusMult(){
+  if(slicers.status==='Paid') return {rev:0.748,paid:1,unpaid:0};
+  if(slicers.status==='Not Paid') return {rev:0.252,paid:0,unpaid:1};
+  return {rev:1,paid:1,unpaid:1};
+}
+
+function updateKPIs(){
+  const idxs=getMonthIndices();
+  const mf=modelFactor();
+  const sm=statusMult();
+  let totRev=0,totPaid=0,totUnpaid=0;
+  idxs.forEach(i=>{
+    totRev+=RAW.rev[i];
+    totPaid+=RAW.paid[i];
+    totUnpaid+=RAW.unpaid[i];
+  });
+  totRev=Math.round(totRev*mf*sm.rev);
+  totPaid=Math.round(totPaid*mf*sm.paid);
+  totUnpaid=Math.round(totUnpaid*mf*sm.unpaid);
+  const tot=totPaid+totUnpaid;
+  document.getElementById('kv1').textContent=fmt(totRev);
+  document.getElementById('ks1').textContent='Total collected revenue';
+  document.getElementById('kv2').textContent=totPaid.toLocaleString();
+  document.getElementById('ks2').textContent=pct(totPaid,tot)+' of students';
+  document.getElementById('kv3').textContent=totUnpaid.toLocaleString();
+  document.getElementById('ks3').textContent=pct(totUnpaid,tot)+' of students';
+  const rate=tot?(totPaid/tot*100).toFixed(1):0;
+  document.getElementById('kv4').textContent=rate+'%';
+  document.getElementById('ks4').textContent=totPaid+' of '+tot+' students paid';
+}
+
+function mkChart(id,type,data,opts){
+  if(charts[id]) charts[id].destroy();
+  const ctx=document.getElementById(id).getContext('2d');
+  charts[id]=new Chart(ctx,{type,data,options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#1f1f3a',borderColor:'#3a3a60',borderWidth:1,titleColor:'#c8c8ff',bodyColor:'#9090c0'}},...opts}});
+}
+
+function updateCharts(){
+  const idxs=getMonthIndices();
+  const mf=modelFactor();
+  const sm=statusMult();
+  const labels=idxs.map(i=>RAW.months[i]);
+
+  document.getElementById('chart1-sub').textContent=slicers.month==='All'?'Full Year':slicers.month;
+
+  mkChart('c1','line',{
+    labels,
+    datasets:[
+      {label:'Revenue (M)',data:idxs.map(i=>Math.round(RAW.rev[i]*mf*sm.rev)),borderColor:'#4f8ef7',backgroundColor:'rgba(79,142,247,0.08)',fill:true,tension:.4,pointRadius:4,pointBackgroundColor:'#4f8ef7',borderWidth:2},
+      {label:'Paid',data:idxs.map(i=>Math.round(RAW.paid[i]*mf*sm.paid)),borderColor:'#22c55e',backgroundColor:'transparent',borderDash:[4,3],tension:.3,pointRadius:3,pointBackgroundColor:'#22c55e',borderWidth:1.5,yAxisID:'y1'},
+      {label:'Not Paid',data:idxs.map(i=>Math.round(RAW.unpaid[i]*mf*sm.unpaid)),borderColor:'#ef4444',backgroundColor:'transparent',borderDash:[4,3],tension:.3,pointRadius:3,pointBackgroundColor:'#ef4444',borderWidth:1.5,yAxisID:'y1'}
+    ]
+  },{scales:{
+    x:{ticks:{color:'#6060a0',font:{size:10}},grid:{color:'rgba(60,60,100,.3)'}},
+    y:{ticks:{color:'#6060a0',font:{size:10},callback:v=>v+'M'},grid:{color:'rgba(60,60,100,.3)'}},
+    y1:{position:'right',ticks:{color:'#6060a0',font:{size:9}},grid:{display:false}}
+  }});
+
+  document.getElementById('chart2-sub').textContent='Revenue in millions';
+  mkChart('c2','bar',{
+    labels:RAW.adCh,
+    datasets:[{data:RAW.adRev.map(v=>Math.round(v*mf*sm.rev)),backgroundColor:COLORS,borderRadius:3,borderSkipped:false}]
+  },{scales:{
+    x:{ticks:{color:'#6060a0',font:{size:10}},grid:{display:false}},
+    y:{ticks:{color:'#6060a0',font:{size:10},callback:v=>v+'M'},grid:{color:'rgba(60,60,100,.3)'}}
+  },plugins:{tooltip:{callbacks:{label:ctx=>' '+ctx.raw+'M'}}}});
+
+  const modelData=RAW.modelRev.map(v=>Math.round(v*sm.rev));
+  mkChart('c3','doughnut',{
+    labels:RAW.models,
+    datasets:[{data:modelData,backgroundColor:MODEL_COLORS,borderColor:'#1f1f3a',borderWidth:3,hoverOffset:6}]
+  },{cutout:'60%',plugins:{tooltip:{callbacks:{label:ctx=>' '+ctx.raw+'M ('+pct(ctx.raw,modelData.reduce((a,b)=>a+b,0))+')'}}},layout:{padding:4}});
+
+  const leg=document.getElementById('tm-legend');
+  leg.innerHTML=RAW.models.map((m,i)=>`<div class="legend-item"><div class="legend-dot" style="background:${MODEL_COLORS[i]}"></div>${m} ${pct(modelData[i],modelData.reduce((a,b)=>a+b,0))}</div>`).join('');
+
+  mkChart('c4','bar',{
+    labels:RAW.teams,
+    datasets:[{data:RAW.teamRev.map(v=>Math.round(v*mf*sm.rev)),backgroundColor:TEAM_COLORS,borderRadius:3}]
+  },{indexAxis:'y',scales:{
+    x:{ticks:{color:'#6060a0',font:{size:10},callback:v=>v+'M'},grid:{color:'rgba(60,60,100,.3)'}},
+    y:{ticks:{color:'#a0a0c0',font:{size:11}},grid:{display:false}}
+  }});
+
+  mkChart('c5','bar',{
+    labels:RAW.teams,
+    datasets:[
+      {label:'Paid',data:RAW.teamPaid.map(v=>Math.round(v*mf*sm.paid)),backgroundColor:'#22c55e',borderRadius:3},
+      {label:'Not Paid',data:RAW.teamTotal.map((tot,i)=>Math.round((tot-RAW.teamPaid[i])*mf*sm.unpaid)),backgroundColor:'#ef4444',borderRadius:3}
+    ]
+  },{scales:{
+    x:{ticks:{color:'#a0a0c0',font:{size:11}},grid:{display:false}},
+    y:{ticks:{color:'#6060a0',font:{size:10}},grid:{color:'rgba(60,60,100,.3)'},stacked:true}
+  },plugins:{tooltip:{mode:'index',intersect:false}}});
+}
+
+function updateConsTable(){
+  const mf=modelFactor();
+  const sm=statusMult();
+  const maxRev=RAW.consRev[0]*mf*sm.rev;
+  const body=document.getElementById('cons-body');
+  body.innerHTML=RAW.cons.map((c,i)=>{
+    const rev=Math.round(RAW.consRev[i]*mf*sm.rev);
+    const calls=Math.round(RAW.consCalls[i]*mf);
+    const rpc=calls?Math.round(rev/calls*1000)/1000:0;
+    const barPct=Math.round(rev/maxRev*100);
+    const clr=i<3?'#4f8ef7':i<8?'#22c55e':'#f59e0b';
+    return `<tr>
+      <td class="rank-num">${i+1}</td>
+      <td style="font-weight:500;color:#c8c8ff">${c}</td>
+      <td>${rev}M</td>
+      <td>${calls.toLocaleString()}</td>
+      <td style="color:#f59e0b">${rpc}M</td>
+      <td><div class="bar-inline"><div class="bar-track"><div class="bar-fill" style="width:${barPct}%;background:${clr}"></div></div><span style="font-size:10px;color:#5070a0;min-width:28px">${barPct}%</span></div></td>
+    </tr>`;
+  }).join('');
+}
+
+function updateFilterStatus(){
+  const parts=[];
+  if(slicers.month!=='All') parts.push('Month: '+slicers.month);
+  if(slicers.model!=='All') parts.push('Model: '+slicers.model);
+  if(slicers.status!=='All') parts.push('Status: '+slicers.status);
+  document.getElementById('filter-status').textContent=parts.length?'Filters: '+parts.join(' | '):'No filters applied';
+}
+
+function setSlicer(type,val,btn){
+  slicers[type]=val;
+  btn.closest('.slicer-bar').querySelectorAll('.slicer-btn').forEach(b=>{
+    if(b.onclick&&b.onclick.toString().includes(`'${type}'`)) b.classList.remove('active');
+  });
+  btn.classList.add('active');
+  render();
+}
+
+function render(){
+  updateKPIs();
+  updateCharts();
+  updateConsTable();
+  updateFilterStatus();
+}
+
+render();
+</script>
