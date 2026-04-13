@@ -24,6 +24,7 @@ fee collection analysis.
 | Microsoft Excel | Pivot tables, KPI cards, charts |
 | Power BI | Real-time interactive reports |
 | MySQL | Centralised relational database |
+|Doc | BUSINESS PROPOSAL Documentation End to End|
 | GitHub | Version control & collaboration |
 
 ## Dataset
